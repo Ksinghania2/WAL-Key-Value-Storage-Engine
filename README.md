@@ -1,31 +1,34 @@
 # WAL-Key-Value-Storage-Engine
 
-Python demo of append-first writes and in-memory state recovery by replaying a simple log.
+A simple Python key-value storage project for learning.
 
-## Overview
-This project demonstrates append-first write patterns and in-memory state recovery using a simple log-based approach.
+## What It Does
+This project shows how to save and retrieve data using a simple log file.
 
-## Features
-- Append-first write strategy
-- In-memory state recovery via log replay
-- Lightweight key-value storage engine
-- Write-ahead logging (WAL) pattern
-
-## Usage
+## Basic Usage
 ```python
-from wal_key_value import KVStore
-store = KVStore()
-store.put('key', 'value')
-value = store.get('key')
+# Simple example
+from storage import KeyValueStore
+store = KeyValueStore()
+store.put('mykey', 'myvalue')
+value = store.get('mykey')
+print(value)  # Output: myvalue
 ```
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## How It Works
+1. Data gets written to a log file
+2. The log remembers the order things were added
+3. You can read data back in the same order
 
-## Topics
-- database
-- key-value-store
-- persistence
-- storage-engine
-- write-ahead-log
-```
+## Learn More
+- Search online for "Python file storage"
+- Try adding more keys and values
+- See how the log grows
+
+## Concepts
+- Key-value pairs
+- Simple file writing
+- Reading data back
+
+## Author
+Educational project for learning Python
