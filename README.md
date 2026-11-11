@@ -1,56 +1,31 @@
-# WAL Key-Value Storage Engine
+# WAL-Key-Value-Storage-Engine
 
-A Python project that demonstrates an append-first write path and rebuilding an in-memory key-value dictionary by replaying a log file.
+Python demo of append-first writes and in-memory state recovery by replaying a simple log.
 
-## What it demonstrates
+## Overview
+This project demonstrates append-first write patterns and in-memory state recovery using a simple log-based approach.
 
-- `WALStorageEngine.set()` appends a binary record (with CRC32 checksum) to `wal.log` before updating the in-memory dictionary.
-- Starting a new engine instance reads the log and replays the stored records.
-- The script includes a restart/recovery demonstration.
+## Features
+- Append-first write strategy
+- In-memory state recovery via log replay
+- Lightweight key-value storage engine
+- Write-ahead logging (WAL) pattern
 
-## Improvements over the original
-
-- **Binary record format** with magic bytes, length prefix, and CRC32 checksums for corruption detection.
-- **Partial-write recovery**: truncated trailing records are detected and ignored.
-- **Delete operations** (`delete`, `__delitem__`).
-- **Type-preserving storage**: JSON serialization supports dicts, lists, ints, floats, booleans, and None.
-- **File locking** (cross-platform: fcntl on Unix, msvcrt on Windows) for concurrent access.
-- **fsync** after every write for durability.
-- **Log compaction** to reclaim space from deleted/overwritten keys.
-- **Transactions** for atomic batch writes (commit/rollback).
-- **Context manager** support (`with WALStorageEngine(...) as db:`).
-- **Rich API**: `get`, `set`, `delete`, `exists`, `keys`, `items`, `stats`, `dump`, `clear`, `compact`, `sync`.
-- **Auto-compaction** with configurable threshold.
-- **Corruption handling**: skips corrupted records and continues recovery.
-
-## Run
-
-```bash
-python wal_engine.py
-```
-
-The script creates `wal.log` in the current working directory.
-
-## API example
-
+## Usage
 ```python
-from wal_engine import WALStorageEngine
-
-with WALStorageEngine("my.db") as db:
-    db.set("user", "Alice")
-    db.set("config", {"theme": "dark"})
-    print(db.get("user"))          # Alice
-    print(db["config"])            # {'theme': 'dark'}
-    del db["user"]
-    print("user" in db)            # False
-
-    with db.begin_transaction() as txn:
-        txn.set("a", 1).set("b", 2)
-
-    db.compact()
-    print(db.stats())
+from wal_key_value import KVStore
+store = KVStore()
+store.put('key', 'value')
+value = store.get('key')
 ```
 
-## Scope and limitations
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-This is a learning prototype, not a production database. It does not implement multi-version concurrency control, replication, or a query planner. Concurrent writers are serialized via file locking but readers may see stale data.
+## Topics
+- database
+- key-value-store
+- persistence
+- storage-engine
+- write-ahead-log
+```
